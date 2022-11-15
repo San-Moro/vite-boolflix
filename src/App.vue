@@ -15,6 +15,10 @@ export default {
     }
   },
   methods: {
+    getAll() {
+      this.getMovies()
+      this.getSeries()
+    },
     getMovies() {
       axios
         .get(`${this.store.apiMoviesURL}?api_key=${this.store.apiKey}&query=${this.store.searchKey}`)
@@ -40,7 +44,7 @@ export default {
 <template>
   <header>
     <div class="search-bar">
-      <SearchBar @searchClicked="getMovies" />
+      <SearchBar @searchClicked="getAll" />
     </div>
   </header>
   <main>
