@@ -25,6 +25,9 @@ export default {
             //     return this.item.original_name
             // }
             return this.item.original_title ? this.item.original_title : this.item.original_name;
+        },
+        getStarsNumber() {
+            return Math.ceil(this.item.vote_average / 2);
         }
     },
     methods: {
@@ -37,22 +40,28 @@ export default {
 </script>
 
 <template>
+
+    <img v-if="item.poster_path" :src="`http://image.tmdb.org/t/p/w342/${item.poster_path}`" alt="">
+    <img v-else src="../assets/img/no-image.jpg" alt="">
+
     <ul>
         <li >
-          <h4> Title: {{ getTitle }}</h4>
-          <p> Original Title: {{ getOriginalTitle }}</p>
-          <div class="language">
-            <img v-if="availableFlags.includes(item.original_language)" :src="getFlagsImgUrl(item.original_language)" alt="">
-            <p v-else> Original Language: {{ item.original_language }}</p>
-          </div>
-          <p> Vote: {{ item.vote_average }}</p>
+            <h4> Title: {{ getTitle }}</h4>
+            <p> Original Title: {{ getOriginalTitle }}</p>
+            <div class="flag">
+                <img v-if="availableFlags.includes(item.original_language)" :src="getFlagsImgUrl(item.original_language)" alt="">
+                <p v-else> Original Language: {{ item.original_language }}</p>
+            </div>
+            <div class="stars">
+                <i v-for="n in 5" :key="n" :class="n <= getStarsNumber ? 'fa-solid' : 'fa-regular'" class="fa-star"></i>
+            </div>
         </li>
-      </ul>
-
+    </ul>
+ 
 </template>
 
 <style lang="scss" scoped>
-.language {
+.flag {
     img {
         width: 50px;
     }
